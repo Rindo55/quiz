@@ -27,4 +27,4 @@ def submit_answer(user_answer):
     return jsonify(result_data)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port='8085')
