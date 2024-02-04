@@ -3,8 +3,6 @@
 #include <string.h>
 #include <time.h>
 
-#define MAX_QUESTIONS 5
-
 typedef struct {
     char question[256];
     char options[4][64];
@@ -18,46 +16,29 @@ void displayQuestion(Question q) {
     }
 }
 
-int checkAnswer(Question q, int user_answer) {
-    return (user_answer == q.correct_option);
-}
-
 int main() {
     srand(time(NULL));
 
-    Question original_questions[MAX_QUESTIONS] = {
-        { "Which bird lays the largest egg?",
-          { "Owl", "Ostrich", "Kingfisher", "Woodpecker" },
-          2 },
-        { "How many legs does a spider have?",
-          { "7", "8", "6", "5" },
-          2 },
-        { "Where does the President of the United States live while in office?",
-          { "The White House", "The Parliament", "House of Commons", "Washington DC" },
-          1 },
-        { "Which state is famous for Hollywood?",
-          { "Sydney", "California", "New York", "Paris" },
-          2 },
-        { "What is a group of lions called?",
-          { "Drift", "Pride", "Flock", "Drove" },
-          2 }
+    Question placeholder_questions[3] = {
+        {"What is the capital of France?",
+         {"Paris", "Berlin", "London", "Madrid"},
+         1},
+        {"Which planet is known as the Red Planet?",
+         {"Venus", "Mars", "Jupiter", "Saturn"},
+         2},
+        {"Who wrote 'Romeo and Juliet'?",
+         {"Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"},
+         2}
     };
 
-    Question questions[MAX_QUESTIONS];
-    memcpy(questions, original_questions, sizeof(original_questions));
-
-    int num_questions = MAX_QUESTIONS;
-
-    for (int i = 0; i < MAX_QUESTIONS; i++) {
-        int random_index = rand() % num_questions;
-        Question current_question = questions[random_index];
+    for (int i = 0; i < 3; i++) {
+        Question current_question = placeholder_questions[i];
         displayQuestion(current_question);
 
         int user_answer;
         printf("Enter your answer (1-4): ");
         scanf("%d", &user_answer);
 
-        // Output JSON-formatted data
         printf("{ \"question\": \"%s\", \"options\": [\"%s\", \"%s\", \"%s\", \"%s\"], \"correct_option\": %d }\n",
                current_question.question,
                current_question.options[0],
@@ -65,9 +46,8 @@ int main() {
                current_question.options[2],
                current_question.options[3],
                current_question.correct_option);
-
-        questions[random_index] = questions[num_questions - 1];
-        num_questions--;
+        
+        printf("Expected Answer: %d\n", current_question.correct_option);
     }
 
     return 0;
