@@ -1,10 +1,7 @@
 # app.py
-from flask import Flask, render_template, request, redirect, url_for, jsonify
-import subprocess
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
-
-# ... (existing code)
 
 questions = [
     {"question": "Which bird lays the largest egg?", "options": ["Owl", "Ostrich", "Kingfisher", "Woodpecker"], "correct_option": 2},
@@ -16,21 +13,16 @@ questions = [
 
 @app.route('/')
 def quiz():
-    return render_template('quiz.html', questions=questions)
+    return render_template('index.html', questions=questions)
 
 @app.route('/submit_quiz', methods=['POST'])
 def submit_quiz():
-    user_answers = [request.form[f'q{i+1}'] for i in range(len(questions))]
-    score, total_questions = process_quiz(questions, user_answers)
-    return render_template('result.html', score=score, total_questions=total_questions)
-
-def process_quiz(questions, user_answers):
-    c_program_command = './quiz2.exe'  # Adjust this based on your C program's name
+    user_answers = [request.form.get(f'q{i + 1}', '') for i in range(len(questions))]
+    c_program_command = './quiz6.exe'  # Adjust this based on your C program's name
     input_data = '\n'.join(user_answers)
-    result, _ = execute_c_program(c_program_command, input_data)
-
-    result_json = json.loads(result)
-    return result_json['score'], result_json['total_questions']
+    result = execute_c_program(c_program_command, input_data)
+    
+    return render_template('result.html', result=result)
 
 def execute_c_program(command, input_data):
     result = subprocess.run(command, shell=True, input=input_data.encode(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
