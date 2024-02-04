@@ -72,7 +72,7 @@ int main() {
     srand(time(NULL));
 
     // Uncomment the following line to use the C code for quiz processing
-    processQuiz();
+    // processQuiz();
 
     return 0;
 }
