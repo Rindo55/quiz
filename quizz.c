@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+
 #define MAX_QUESTIONS 5
 
 typedef struct {
@@ -72,7 +73,7 @@ int main() {
     srand(time(NULL));
 
     // Uncomment the following line to use the C code for quiz processing
-    // processQuiz();
+    processQuiz();
 
     return 0;
 }
