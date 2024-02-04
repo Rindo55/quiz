@@ -1,5 +1,6 @@
 # app.py
 from flask import Flask, render_template, request
+import subprocess
 
 app = Flask(__name__)
 
@@ -18,11 +19,20 @@ def quiz():
 @app.route('/submit_quiz', methods=['POST'])
 def submit_quiz():
     user_answers = [request.form.get(f'q{i + 1}', '') for i in range(len(questions))]
-    c_program_command = './quiz6.exe'  # Adjust this based on your C program's name
+    c_program_command = 'chmod +x quiz6.exe'
     input_data = '\n'.join(user_answers)
-    result = execute_c_program(c_program_command, input_data)
-    
-    return render_template('result.html', result=result)
+    result, error_output = execute_c_program(c_program_command, input_data)
+
+    print("Result from C program:", result)
+    print("Error output from C program:", error_output)
+
+    try:
+        score, total_questions = map(int, result.strip().split())
+    except (AttributeError, ValueError):
+        # Handle the case where the result is not in the expected format
+        score, total_questions = 0, len(questions)
+
+    return render_template('result.html', score=score, total_questions=total_questions)
 
 def execute_c_program(command, input_data):
     result = subprocess.run(command, shell=True, input=input_data.encode(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
