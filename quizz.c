@@ -47,6 +47,10 @@ void processQuiz() {
     int num_questions = MAX_QUESTIONS;
     int score = 0;
 
+    printf("Content-Type: application/json\n\n");  // Ensures JSON output
+
+    printf("[");  // Start of JSON array
+
     for (int i = 0; i < MAX_QUESTIONS; i++) {
         int random_index = rand() % num_questions;
         Question current_question = questions[random_index];
@@ -62,16 +66,20 @@ void processQuiz() {
 
         questions[random_index] = questions[num_questions - 1];
         num_questions--;
+
+        // Output JSON-formatted result for each question
+        if (i > 0) {
+            printf(",");
+        }
+        printf("{\"score\": %d, \"total_questions\": %d}", score, MAX_QUESTIONS);
     }
 
-    // Output score and total questions on separate lines
-    printf("%d %d\n", score, MAX_QUESTIONS);
+    printf("]");  // End of JSON array
 }
 
 int main() {
     srand(time(NULL));
 
-    // Uncomment the following line to use the C code for quiz processing
     processQuiz();
 
     return 0;
