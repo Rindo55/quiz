@@ -39,4 +39,4 @@ def execute_c_program(command, input_data):
     return result.stdout.decode('utf-8'), result.stderr.decode('utf-8')
 
 if __name__ == '__main__':
-    app.run(debug=True, port='8090')
+    app.run(host='0.0.0.0', port= 8091, debug=True)
