@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-
 #define MAX_QUESTIONS 5
 
 typedef struct {
@@ -65,8 +64,9 @@ void processQuiz() {
         num_questions--;
     }
 
-    // Output JSON-formatted result
-    printf("{ \"score\": %d, \"total_questions\": %d }\n", score, MAX_QUESTIONS);
+    // Output score and total questions on separate lines
+    printf("%d\n", score);
+    printf("%d\n", MAX_QUESTIONS);
 }
 
 int main() {
