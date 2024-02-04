@@ -65,8 +65,7 @@ void processQuiz() {
     }
 
     // Output score and total questions on separate lines
-    printf("%d\n", score);
-    printf("%d\n", MAX_QUESTIONS);
+    printf("%d %d\n", score, MAX_QUESTIONS);
 }
 
 int main() {
